@@ -15,7 +15,7 @@ export default function HomePage() {
   }, [])
 
   const { RiveComponent, rive } = useRive({
-    src: '/sky.riv',
+    src: `${process.env.PUBLIC_URL}/sky.riv`,
     stateMachines: STATE_MACHINE,
     autoplay: true,
     layout: new Layout({ fit: 'cover' }),
@@ -32,7 +32,6 @@ export default function HomePage() {
     }
   }
 
-  
   const handlePointerDown = (e) => {
     if (e.pointerType === 'touch') return
     if (mouseListen?.value === true) fireAnimation()
@@ -46,7 +45,6 @@ export default function HomePage() {
     if (mouseListen && !isTouchDevice) mouseListen.value = false
   }
 
- 
   const handleTouchStart = () => {
     touchStartTime.current = Date.now()
   }
@@ -54,7 +52,6 @@ export default function HomePage() {
   const handleTouchEnd = (e) => {
     e.preventDefault()
     const now = Date.now()
-
 
     if (now - lastTouchTime.current < 400) {
       return
@@ -66,13 +63,11 @@ export default function HomePage() {
     const duration = now - touchStartTime.current
 
     if (duration > 500) {
-
       if (!mouseListen.value) {
         mouseListen.value = true
       } else {
       }
     } else {
-      
       if (mouseListen.value) {
         fireAnimation()
       } else {
