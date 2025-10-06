@@ -3,7 +3,7 @@
 ![img](img/1.jpg)
 
 A simple web application built with a Spring Boot backend and a React frontend, featuring smooth and interactive animations powered by Rive.
-The app aims to display weather news in an attractive and responsive way, offering a sleek interface and a pleasant user experience across all devices — especially on mobile.
+The app aims to display weather news in an attractive and responsive way, offering a sleek interface and a pleasant user experience across all devices especially on mobile.
 
 <br><br>
 
