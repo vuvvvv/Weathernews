@@ -201,6 +201,24 @@ export default function NewsPage() {
   }
 
   useEffect(() => {
+    const startTime = Date.now()
+    const limit = 30 * 60 * 1000 
+
+    const timer = setInterval(() => {
+      const elapsed = Date.now() - startTime
+      if (elapsed > limit) {
+        localStorage.removeItem('idToken')
+        localStorage.removeItem('userEmail')
+        clearInterval(timer)
+        alert('Please login again')
+        navigate('/')
+      }
+    }, 10000)
+
+    return () => clearInterval(timer)
+  }, [navigate])
+  
+  useEffect(() => {
     setLoading(true)
     const now = new Date()
 
