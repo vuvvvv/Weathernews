@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom' 
+import { useNavigate } from 'react-router-dom'
 import DawnRain from './rainblack'
+
 export default function AuthPage() {
-  const navigate = useNavigate() // 👈
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
@@ -43,29 +44,22 @@ export default function AuthPage() {
         body: JSON.stringify({ email, password }),
       })
 
-      const rawBody = await res.text()
-      let data
-      try {
-        data = JSON.parse(rawBody)
-      } catch {
-        data = null
-      }
+      const data = await res.json()
 
       if (res.ok) {
         if (mode === 'login') {
-          if (data?.idToken) {
-            localStorage.setItem('idToken', data.idToken)
-            localStorage.setItem('userEmail', email)
-
-            setIsError(false)
-            navigate('/news')
-          } else {
-            setMessage('Login successful, but no token received')
-            setIsError(false)
-          }
-        } else {
-          setMessage(data?.message || 'Account created successfully!')
+          localStorage.setItem('idToken', data.idToken)
+          localStorage.setItem('userEmail', email)
           setIsError(false)
+          navigate('/news')
+        } else {
+          // تسجيل مستخدم جديد → مباشرة إلى صفحة التفعيل
+          localStorage.setItem('idToken', data.idToken)
+          setMessage(
+            'Account created successfully! Please activate your account.'
+          )
+          setIsError(false)
+          navigate('/activate')
         }
       } else {
         setMessage(data?.error || data?.message || 'An error occurred')
@@ -80,9 +74,9 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen  ">
+    <div className="flex items-center justify-center min-h-screen">
       <DawnRain />
-      <div className="w-full  max-w-md rounded-2xl shadow p-8">
+      <div className="w-full max-w-md rounded-2xl shadow p-8">
         <h2 className="text-2xl font-bold mb-6 text-center text-white">
           {mode === 'login' ? 'Login' : 'Register'}
         </h2>
